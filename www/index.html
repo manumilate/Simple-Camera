@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+              
+        <meta http-equiv="Content-Security-Policy" 
+            content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; 
+            style-src 'self' 'unsafe-inline'; 
+            media-src *; 
+            script-src 'self' 'unsafe-inline';
+            img-src 'self' data: content:;">
+        <meta name="format-detection" content="telephone=no">
+        <meta name="msapplication-tap-highlight" content="no">
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+        <title>Take Pictures</title>
+		
+		<link rel="stylesheet" href="js/jquery.mobile-1.4.5.css">
+	           <script src="js/jquery.js"></script>
+            <script src="js/jquery.mobile-1.4.5.js"></script>
+    </head>
+    <body>
+	<style>
+	#btn,#btn1{
+	height:80px;
+	font-size:25px;
+	}
+	img{
+	height:170px;
+	width:220px;
+	}
+	ui-icon{
+	size:50px;
+	}
+
+	</style>
+<script type="text/javascript" src="cordova.js"></script>
+        <script>
+		
+
+            let app = {
+                init: function(){
+                    document.getElementById('btn').addEventListener('click', app.takephoto);
+					document.getElementById('btn1').addEventListener('click', app.vibrate);
+                },
+				
+				vibrate: function(){
+				var time = 3000;
+                navigator.vibrate(time);
+				
+				  },
+				  
+				
+                takephoto: function(){
+                    let opts = {
+                        quality: 80,
+                        destinationType: Camera.DestinationType.FILE_URI,
+                        sourceType: Camera.PictureSourceType.CAMERA,
+                        mediaType: Camera.MediaType.PICTURE,
+                        encodingType: Camera.EncodingType.JPEG,
+                        cameraDirection: Camera.Direction.BACK,
+                        targetWidth: 300,
+                        targetHeight: 400
+                    };
+                    
+                    navigator.camera.getPicture(app.ftw, app.wtf, opts);
+                },
+                ftw: function(imgURI){
+                    document.getElementById('msg').textContent = imgURI;
+                    document.getElementById('photo').src = imgURI;
+                    
+                },
+                wtf: function(msg){
+                    document.getElementById('msg').textContent = msg;
+                }
+            };
+            
+            document.addEventListener('deviceready', app.init);
+        </script>
+		
+       <div data-role="page" data-fullscreen="true" data-theme="b">
+		  <div data-role="header" data-position="fixed" data-theme="b"> 
+			<h6>Access Hardware on Android</h6>
+		  </div>
+	
+	      <div data-role="content" >	
+		     <div style="text-align : center;">
+	          <img src="img/icon.png" alt="image" id="photo" />
+			  </div>
+              <button id="btn" data-icon="camera" data-theme="b">CAMERA</button>
+			  <button id="btn1" data-icon="audio" data-theme="b">VIBRATE</button>
+			  <p id="msg"></p>    
+	      </div>
+	
+		   <div data-role="footer" data-position="fixed" data-theme="b"> 
+			<h6>simple application</h6>
+		   </div>
+        </div>
+    </body>
+</html>
